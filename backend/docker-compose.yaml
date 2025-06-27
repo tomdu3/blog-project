@@ -1,0 +1,10 @@
+services:
+  backend:
+    build: .
+    command: uv run uvicorn main:app --reload --port=8000 --host=0.0.0.0
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    # environment:
+    #   - NOTION_API_KEY=${NOTION_API_KEY}

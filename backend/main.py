@@ -1,6 +1,8 @@
-def main():
-    print("Hello from blog-project!")
+from fastapi import FastAPI
+
+app = FastAPI()
 
 
-if __name__ == "__main__":
-    main()
+@app.get("/")
+def index():
+    return {"details": "Hello, World!"}
