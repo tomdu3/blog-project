@@ -95,12 +95,13 @@ images: {
 backend/
 ├── .env.example           # Environment template
 ├── pyproject.toml         # Updated dependencies
-├── app/
-│   └── main.py           # FastAPI app (existing)
-└── notion/
-    ├── __init__.py       # Python package
-    ├── client.py         # Notion client management
-    └── parser.py         # Data parsing utilities
+└── app/
+    ├── main.py           # FastAPI app (existing)
+    ├── test_notion.py    # Notion integration test
+    └── notion/
+        ├── __init__.py   # Python package
+        ├── client.py     # Notion client management
+        └── parser.py     # Data parsing utilities
 ```
 
 ### Frontend Structure
@@ -201,7 +202,7 @@ The foundation is now solid for building the blog API and integrating with the f
 ## 🧪 Testing & Verification
 
 ### Notion Integration Test
-**File:** `backend/test_notion.py`
+**File:** `backend/app/test_notion.py`
 
 A comprehensive test script was created to verify the Notion integration setup:
 
@@ -234,7 +235,7 @@ A comprehensive test script was created to verify the Notion integration setup:
 **How to Run Tests:**
 ```bash
 cd backend
-uv run python test_notion.py
+uv run python -m app.test_notion
 ```
 
 **What the Test Validates:**
