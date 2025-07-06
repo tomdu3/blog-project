@@ -1,0 +1,72 @@
+# Blog API Test Requests
+# Use with REST Client extension in VS Code or any HTTP client
+
+### Variables
+@baseUrl = http://localhost:8000
+
+### Health Check - Test API Status
+GET {{baseUrl}}/
+Content-Type: application/json
+
+###
+
+### Get All Posts - List published blog posts
+GET {{baseUrl}}/posts
+Content-Type: application/json
+
+###
+
+### Get Specific Post - Valid slug
+GET {{baseUrl}}/posts/beginners-guide-to-personal-finance
+Content-Type: application/json
+
+###
+
+### Get Specific Post - Another valid slug
+GET {{baseUrl}}/posts/how-to-increase-productivity-while-working-from-home
+Content-Type: application/json
+
+###
+
+### Get Non-existent Post - Test 404 error handling
+GET {{baseUrl}}/posts/non-existent-post
+Content-Type: application/json
+
+###
+
+### Cache Statistics - Monitor cache performance
+GET {{baseUrl}}/cache/stats
+Content-Type: application/json
+
+###
+
+### Test Cache Performance - Run this request twice to see cache in action
+# First request will be slower (cache miss)
+# Second request will be faster (cache hit)
+GET {{baseUrl}}/posts
+Content-Type: application/json
+
+###
+
+### API Documentation - FastAPI auto-generated docs
+GET {{baseUrl}}/docs
+Accept: text/html
+
+###
+
+### OpenAPI Schema - JSON schema for the API
+GET {{baseUrl}}/openapi.json
+Content-Type: application/json
+
+###
+
+# Production Environment Tests
+# Change the baseUrl to your production URL when deployed
+
+### Production Health Check
+# GET https://your-production-domain.com/
+# Content-Type: application/json
+
+### Production Posts
+# GET https://your-production-domain.com/posts
+# Content-Type: application/json
