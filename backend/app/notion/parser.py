@@ -1,5 +1,5 @@
 from typing import List, Dict, Any
-from notion.client import get_notion, get_database_id
+from app.notion.client import get_notion, get_database_id
 
 def query_database() -> List[Dict[str, Any]]:
     """Query Notion database for published posts"""

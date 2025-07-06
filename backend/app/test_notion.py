@@ -5,8 +5,8 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from notion.client import get_notion, get_database_id
-from notion.parser import query_database, parse_page_properties
+from app.notion.client import get_notion, get_database_id
+from app.notion.parser import query_database, parse_page_properties
 
 def test_notion_connection():
     """Test basic Notion connection and database access"""
