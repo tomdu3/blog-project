@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 interface PostDetail {
   id: string;
@@ -109,7 +111,72 @@ export default async function BlogPost({ params }: { params: { slug: string } })
                           prose-pre:bg-gray-50 prose-pre:border prose-pre:border-gray-200
                           prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 prose-blockquote:pl-4
                           prose-img:rounded-lg prose-img:shadow-md">
-            <ReactMarkdown>{post.content}</ReactMarkdown>
+            <ReactMarkdown 
+              components={{
+                code: ({ className, children, ...props }) => {
+                  const match = /language-(\w+)/.exec(className || '');
+                  const language = match ? match[1] : '';
+                  
+                  return language ? (
+                    <SyntaxHighlighter
+                      style={oneDark as any}
+                      language={language}
+                      PreTag="div"
+                    >
+                      {String(children).replace(/\n$/, '')}
+                    </SyntaxHighlighter>
+                  ) : (
+                    <code className={className} {...props}>
+                      {children}
+                    </code>
+                  );
+                },
+                blockquote: ({ children, ...props }) => (
+                  <div className="callout p-4 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg my-4">
+                    <div className="flex items-start">
+                      <div className="mr-3 text-blue-500 text-xl">💡</div>
+                      <div className="prose prose-sm max-w-none">
+                        {children}
+                      </div>
+                    </div>
+                  </div>
+                ),
+                details: ({ children, ...props }) => (
+                  <details className="toggle bg-gray-50 border border-gray-200 rounded-lg p-4 my-4">
+                    {children}
+                  </details>
+                ),
+                summary: ({ children, ...props }) => (
+                  <summary className="cursor-pointer font-semibold text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded">
+                    {children}
+                  </summary>
+                ),
+                table: ({ children, ...props }) => (
+                  <div className="overflow-x-auto my-6">
+                    <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+                      {children}
+                    </table>
+                  </div>
+                ),
+                thead: ({ children, ...props }) => (
+                  <thead className="bg-gray-50">
+                    {children}
+                  </thead>
+                ),
+                th: ({ children, ...props }) => (
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200">
+                    {children}
+                  </th>
+                ),
+                td: ({ children, ...props }) => (
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border-b border-gray-200">
+                    {children}
+                  </td>
+                )
+              }}
+            >
+              {post.content}
+            </ReactMarkdown>
           </div>
         </article>
 

@@ -56,6 +56,23 @@ class SimpleCache:
         self.cache.clear()
         logger.debug("Cache cleared")
     
+    def clear_pattern(self, pattern: str) -> int:
+        """Clear cache entries matching a pattern (supports * wildcard)"""
+        import fnmatch
+        
+        matching_keys = [
+            key for key in self.cache.keys()
+            if fnmatch.fnmatch(key, pattern)
+        ]
+        
+        for key in matching_keys:
+            del self.cache[key]
+        
+        if matching_keys:
+            logger.debug(f"Cleared {len(matching_keys)} cache entries matching pattern '{pattern}'")
+        
+        return len(matching_keys)
+    
     def cleanup_expired(self) -> int:
         """Remove expired entries and return count"""
         now = datetime.now()
