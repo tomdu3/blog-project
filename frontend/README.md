@@ -1,33 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Blog Project
+
+This project consists of a Next.js frontend and a backend service.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js (v18 or later)
+- npm, yarn, pnpm, or bun
+
+### Frontend
+
+1.  **Install dependencies:**
+
+    ```bash
+    npm install
+    # or
+    yarn install
+    # or
+    pnpm install
+    # or
+    bun install
+    ```
+
+2.  **Run the development server:**
+
+    ```bash
+    npm run dev
+    # or
+    yarn dev
+    # or
+    pnpm dev
+    # or
+    bun dev
+    ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Backend
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Option 1: Without Docker**
 
-## Learn More
+1.  **Navigate to the backend directory:**
 
-To learn more about Next.js, take a look at the following resources:
+    ```bash
+    cd ../backend 
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2.  **Install dependencies:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+    ```bash
+    # Add command to install backend dependencies, e.g., pip install -r requirements.txt
+    ```
+
+3.  **Run the backend server:**
+
+    ```bash
+    # Add command to run the backend server, e.g., uvicorn main:app --reload
+    ```
+
+The backend will be available at `http://localhost:8000`.
+
+**Option 2: With Docker**
+
+1.  **Build and run the containers:**
+
+    ```bash
+    docker-compose up -d --build
+    ```
+
+The frontend will be available at [http://localhost:3000](http://localhost:3000) and the backend at [http://localhost:8000](http://localhost:8000).
 
 ## Deploy on Vercel
 
