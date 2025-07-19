@@ -71,10 +71,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
 function BlogPostContent({ post }: { post: PostDetail }) {
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8 dark:text-gray-300">
-      <Link 
-        href="/" 
-        className="inline-flex items-center text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 mb-8"
+    <div className="max-w-4xl mx-auto px-4 py-8">
+      <Link
+        href="/"
+        className="inline-flex items-center text-blue-500 hover:text-blue-600 mb-8"
       >
         ← Back to blog
       </Link>
@@ -93,7 +93,7 @@ function BlogPostContent({ post }: { post: PostDetail }) {
         )}
 
         <header className="mb-8">
-          <time className="text-sm text-gray-500 dark:text-gray-400 mb-2 block">
+          <time className="text-sm text-gray-500 mb-2 block">
             {new Date(post.date).toLocaleDateString('en-US', {
               year: 'numeric',
               month: 'long',
@@ -101,28 +101,18 @@ function BlogPostContent({ post }: { post: PostDetail }) {
             })}
           </time>
           
-          <h1 className="text-3xl sm:text-4xl font-bold mb-4 leading-tight text-gray-900 dark:text-blue-400">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-4 leading-tight text-gray-900">
             {post.title}
           </h1>
           
           {post.excerpt && (
-            <p className="text-xl text-gray-600 dark:text-white leading-relaxed">
+            <p className="text-xl text-gray-600 leading-relaxed">
               {post.excerpt}
             </p>
           )}
         </header>
 
-        <div className="prose prose-lg prose-gray max-w-none
-                        prose-headings:font-semibold 
-                        prose-h1:text-gray-900 dark:prose-h1:text-blue-400
-                        prose-h2:text-gray-900 dark:prose-h2:text-gray-200
-                        prose-h3:text-gray-900 dark:prose-h3:text-gray-200
-                        prose-p:text-gray-800 dark:prose-p:text-white prose-p:leading-relaxed
-                        prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline
-                        prose-code:bg-gray-200 dark:prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:rounded
-                        prose-pre:bg-gray-100 dark:prose-pre:bg-gray-900 prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-gray-700
-                        prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 dark:prose-blockquote:bg-gray-900 dark:prose-blockquote:border-blue-400 prose-blockquote:pl-4
-                        prose-img:rounded-lg prose-img:shadow-md">
+        <div className="prose prose-lg prose-gray max-w-none">
           <ReactMarkdown 
             components={{
               img: ({ node, ...props }) => (
@@ -155,44 +145,44 @@ function BlogPostContent({ post }: { post: PostDetail }) {
                 );
               },
               blockquote: ({ children, ...props }) => (
-                <div className="callout p-4 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg my-4 dark:bg-gray-900 dark:border-blue-400">
+                <div className="callout p-4 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg my-4">
                   <div className="flex items-start">
-                    <div className="mr-3 text-blue-500 text-xl dark:text-blue-400">💡</div>
-                    <div className="prose prose-sm max-w-none dark:text-gray-300">
+                    <div className="mr-3 text-blue-500 text-xl">💡</div>
+                    <div className="prose prose-sm max-w-none">
                       {children}
                     </div>
                   </div>
                 </div>
               ),
               details: ({ children, ...props }) => (
-                <details className="toggle bg-gray-50 border border-gray-200 rounded-lg p-4 my-4 dark:bg-gray-900 dark:border-gray-700">
+                <details className="toggle bg-gray-50 border border-gray-200 rounded-lg p-4 my-4">
                   {children}
                 </details>
               ),
               summary: ({ children, ...props }) => (
-                <summary className="cursor-pointer font-semibold text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded">
+                <summary className="cursor-pointer font-semibold text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded">
                   {children}
                 </summary>
               ),
               table: ({ children, ...props }) => (
                 <div className="overflow-x-auto my-6">
-                  <table className="min-w-full bg-white border border-gray-200 rounded-lg dark:bg-gray-900 dark:border-gray-700">
+                  <table className="min-w-full bg-white border border-gray-200 rounded-lg">
                     {children}
                   </table>
                 </div>
               ),
               thead: ({ children, ...props }) => (
-                <thead className="bg-gray-50 dark:bg-gray-800">
+                <thead className="bg-gray-50">
                   {children}
                 </thead>
               ),
               th: ({ children, ...props }) => (
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200">
                   {children}
                 </th>
               ),
               td: ({ children, ...props }) => (
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border-b border-gray-200 dark:text-gray-300 dark:border-gray-700">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border-b border-gray-200">
                   {children}
                 </td>
               )
@@ -203,10 +193,10 @@ function BlogPostContent({ post }: { post: PostDetail }) {
         </div>
       </article>
 
-      <footer className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+      <footer className="mt-12 pt-8 border-t border-gray-200">
         <Link 
           href="/" 
-          className="inline-flex items-center text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+          className="inline-flex items-center text-blue-600 hover:text-blue-700"
         >
           ← Back to all posts
         </Link>
