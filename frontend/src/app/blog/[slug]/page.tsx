@@ -113,7 +113,7 @@ function BlogPostContent({ post }: { post: PostDetail }) {
         </header>
 
         <div className="prose prose-lg prose-gray max-w-none">
-          <ReactMarkdown 
+          <ReactMarkdown
             components={{
               img: ({ node, ...props }) => (
                 <span className="block w-full md:w-1/2 mx-auto my-4">
