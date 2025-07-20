@@ -127,6 +127,9 @@ def parse_blocks_to_markdown(blocks: List[Dict[str, Any]]) -> str:
         elif block_type == "quote":
             text = extract_rich_text(block["quote"]["rich_text"])
             markdown_content.append(f"> {text}")
+        
+        elif block_type == "divider":
+            markdown_content.append("---")
     
     return "\n\n".join(markdown_content)
 
