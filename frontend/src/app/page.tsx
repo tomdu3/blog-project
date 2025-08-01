@@ -33,10 +33,7 @@ export default async function Home() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <header className="mb-12">
-        <h1 className="text-4xl font-bold mb-4">My Blog</h1>
-        <p className="text-gray-600">Thoughts, stories, and ideas powered by Notion</p>
-      </header>
+      
 
       <main className="space-y-8">
         {posts.map((post) => (
