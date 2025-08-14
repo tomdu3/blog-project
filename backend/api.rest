@@ -23,7 +23,7 @@ Content-Type: application/json
 ###
 
 ### Get Specific Post - Another valid slug
-GET {{baseUrl}}/posts/how-to-increase-productivity-while-working-from-home
+GET {{baseUrl}}/posts/beginners-guide-to-personal-finance
 Content-Type: application/json
 
 ###
