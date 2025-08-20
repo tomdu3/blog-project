@@ -41,9 +41,9 @@ export default async function PostPage({ params }: { params: { slug: string } })
             <Image
               src={post.cover}
               alt={post.title}
-              width={1200}
-              height={630}
-              className="w-full rounded-lg"
+              width={600}
+              height={315}
+              className="w-4/5 md:w-1/2 rounded-lg"
             />
           </div>
         )}

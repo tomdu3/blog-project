@@ -81,6 +81,14 @@ body {
 
 .prose img {
   @apply rounded-lg shadow-md my-6;
+  width: 50%;
+  margin: auto;
+}
+
+@media (max-width: 768px) {
+  .prose img {
+    width: 80%;
+  }
 }
 
 .prose a {
