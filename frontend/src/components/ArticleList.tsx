@@ -11,29 +11,13 @@ interface PostSummary {
   published: boolean;
 }
 
-interface PostsResponse {
+interface ArticleListProps {
   posts: PostSummary[];
-  total: number;
 }
 
-async function getPosts(): Promise<PostSummary[]> {
-  const res = await fetch(`http://localhost:8000/posts`, {
-    next: { revalidate: 300 }
-  });
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch posts');
-  }
-
-  const data: PostsResponse = await res.json();
-  return data.posts;
-}
-
-export default async function ArticleList() {
-  const posts = await getPosts();
-
+export default function ArticleList({ posts }: ArticleListProps) {
   return (
-    <aside className="w-full md:w-1/4 p-6 bg-slate-800 rounded-lg">
+        <aside className="p-6 bg-slate-800 rounded-lg pb-8">
       <h2 className="text-lg font-medium text-slate-300 mb-4">All Articles</h2>
       <ul>
         {posts.map((post) => (

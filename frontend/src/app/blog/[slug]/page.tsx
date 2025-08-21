@@ -32,8 +32,37 @@ async function getPost(slug: string): Promise<Post> {
 
 import ArticleList from '@/components/ArticleList';
 
+interface PostSummary {
+  id: string;
+  title: string;
+  slug: string;
+  date: string;
+  excerpt: string;
+  cover?: string;
+  published: boolean;
+}
+
+interface PostsResponse {
+  posts: PostSummary[];
+  total: number;
+}
+
+async function getPosts(): Promise<PostSummary[]> {
+  const res = await fetch(`http://localhost:8000/posts`, {
+    next: { revalidate: 300 }
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch posts');
+  }
+
+  const data: PostsResponse = await res.json();
+  return data.posts;
+}
+
 export default async function PostPage({ params }: { params: { slug: string } }) {
   const post = await getPost(params.slug);
+  const allPosts = await getPosts();
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col md:flex-row">
@@ -87,7 +116,11 @@ export default async function PostPage({ params }: { params: { slug: string } })
           </ReactMarkdown>
         </article>
       </main>
-      <ArticleList />
+      <div className="w-full md:w-1/4 mt-8 md:mt-0">
+        <div className="sticky top-8 max-h-[calc(100vh-4rem)] overflow-y-auto pr-4">
+          <ArticleList posts={allPosts} />
+        </div>
+      </div>
     </div>
   );
 }
