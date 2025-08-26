@@ -41,7 +41,7 @@ ENV NODE_ENV=production
 ENV PYTHONPATH=/app/backend
 
 # Expose ports
-EXPOSE 3000 8000
+EXPOSE 3001 8001
 
 # Start script
 COPY start.sh .
