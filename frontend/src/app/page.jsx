@@ -1,23 +1,9 @@
+
 import Image from "next/image";
 import Link from "next/link";
 import ArticleList from "@/components/ArticleList";
 
-interface PostSummary {
-  id: string;
-  title: string;
-  slug: string;
-  date: string;
-  excerpt: string;
-  cover?: string;
-  published: boolean;
-}
-
-interface PostsResponse {
-  posts: PostSummary[];
-  total: number;
-}
-
-async function getPosts(): Promise<PostSummary[]> {
+async function getPosts() {
   const res = await fetch('http://localhost:8000/posts', {
     next: { revalidate: 300 }
   });
@@ -26,11 +12,11 @@ async function getPosts(): Promise<PostSummary[]> {
     throw new Error('Failed to fetch posts');
   }
   
-  const data: PostsResponse = await res.json();
+  const data = await res.json();
   return data.posts;
 }
 
-export default async function Home() {
+const Home = async () => {
   const posts = await getPosts();
   const latestPosts = posts.slice(0, 3);
 
@@ -68,8 +54,8 @@ export default async function Home() {
                     <Image
                       src={post.cover}
                       alt={post.title}
-                      layout="fill"
-                      objectFit="cover"
+                      fill
+                      style={{ objectFit: "cover" }}
                       className="group-hover:scale-105 transition-transform duration-200"
                     />
                   </div>
@@ -111,3 +97,4 @@ export default async function Home() {
   );
 }
 
+export default Home;

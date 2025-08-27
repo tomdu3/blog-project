@@ -9,20 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@types/react-syntax-highlighter": "^15.5.13",
+    "geist": "^1.4.2",
+    "isomorphic-dompurify": "^2.26.0",
+    "marked": "^16.2.0",
     "next": "15.3.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-markdown": "^9.0.1",
-        "react-syntax-highlighter": "^15.6.1"
+    "react-syntax-highlighter": "^15.6.6"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
     "eslint-config-next": "14.2.3",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "tailwindcss": "^4"
   }
 }
