@@ -7,7 +7,9 @@ export async function getPosts() {
     return [];
   }
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+  const baseUrl = process.env.NEXT_PUBLIC_URL || '';
+  const apiUrl = `${baseUrl}/api`;
+
   try {
     const res = await fetch(`${apiUrl}/posts`, {
       next: { revalidate: 300 }
