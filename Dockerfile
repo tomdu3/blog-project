@@ -4,6 +4,8 @@ WORKDIR /app/frontend
 COPY frontend/package.json frontend/package-lock.json ./
 RUN npm install
 COPY frontend/ ./
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 RUN npm run build
 
 # Stage 2: Build the backend
@@ -25,9 +27,12 @@ RUN apt-get update && apt-get install -y nodejs npm && npm install -g npm@latest
 WORKDIR /app/frontend
 COPY --from=frontend-builder /app/frontend/package.json /app/frontend/package-lock.json ./
 RUN npm install --production
-COPY --from=frontend-builder /app/frontend/next.config.ts ./
+COPY --from=frontend-builder /app/frontend/next.config.mjs ./
+COPY --from=frontend-builder /app/frontend/jsconfig.json ./
+COPY --from=frontend-builder /app/frontend/postcss.config.mjs ./
 COPY --from=frontend-builder /app/frontend/public ./public
 COPY --from=frontend-builder /app/frontend/.next ./.next
+COPY --from=frontend-builder /app/frontend/src ./src
 
 # Copy backend app and dependencies
 WORKDIR /app/backend
@@ -37,8 +42,10 @@ COPY --from=backend-builder /usr/local/bin/uvicorn /usr/local/bin/
 COPY --from=backend-builder /usr/local/bin/fastapi /usr/local/bin/
 
 # Set environment variables
+ARG NEXT_PUBLIC_API_URL
 ENV NODE_ENV=production
 ENV PYTHONPATH=/app/backend
+ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 
 # Expose ports
 EXPOSE 3001 8001

@@ -4,16 +4,23 @@ import Link from "next/link";
 import ArticleList from "@/components/ArticleList";
 
 async function getPosts() {
-  const res = await fetch('http://localhost:8000/posts', {
-    next: { revalidate: 300 }
-  });
-  
-  if (!res.ok) {
-    throw new Error('Failed to fetch posts');
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+  try {
+    const res = await fetch(`${apiUrl}/posts`, {
+      next: { revalidate: 300 }
+    });
+    
+    if (!res.ok) {
+      console.error('Failed to fetch posts');
+      return [];
+    }
+    
+    const data = await res.json();
+    return data.posts;
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    return [];
   }
-  
-  const data = await res.json();
-  return data.posts;
 }
 
 const Home = async () => {
