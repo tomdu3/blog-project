@@ -1,78 +1,52 @@
-# Blog Project
+# Frontend
 
-This project consists of a Next.js frontend and a backend service.
+This is the Next.js frontend for the blog project.
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v18 or later)
-- npm, yarn, pnpm, or bun
+- Node.js (v20 or later)
+- npm
 
-### Frontend
+### Installation
 
 1.  **Install dependencies:**
 
     ```bash
     npm install
-    # or
-    yarn install
-    # or
-    pnpm install
-    # or
-    bun install
     ```
 
-2.  **Run the development server:**
+2.  **Set up environment variables:**
+
+    Create a `.env.local` file by copying the sample file:
+
+    ```bash
+    cp .env.local-sample .env.local
+    ```
+
+    Update `.env.local` with the URL of your backend API. For local development, it's typically `http://localhost:8000`.
+
+3.  **Run the development server:**
 
     ```bash
     npm run dev
-    # or
-    yarn dev
-    # or
-    pnpm dev
-    # or
-    bun dev
     ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3001](http://localhost:3001) with your browser to see the result.
 
-### Backend
+### Building for Production
 
-**Option 1: Without Docker**
+To create a production-ready build, run:
 
-1.  **Navigate to the backend directory:**
+```bash
+npm run build
+```
 
-    ```bash
-    cd ../backend 
-    ```
+### Running in Production
 
-2.  **Install dependencies:**
+To start the application in production mode, run:
 
-    ```bash
-    # Add command to install backend dependencies, e.g., pip install -r requirements.txt
-    ```
-
-3.  **Run the backend server:**
-
-    ```bash
-    # Add command to run the backend server, e.g., uvicorn main:app --reload
-    ```
-
-The backend will be available at `http://localhost:8000`.
-
-**Option 2: With Docker**
-
-1.  **Build and run the containers:**
-
-    ```bash
-    docker-compose up -d --build
-    ```
-
-The frontend will be available at [http://localhost:3000](http://localhost:3000) and the backend at [http://localhost:8000](http://localhost:8000).
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm start
+```

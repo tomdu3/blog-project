@@ -1,127 +1,82 @@
 # Blog Project
 
-This is a Blog Project based on FastAPI, React, TailwindCSS, and Notion as a CMS.
+This is a modern blog application powered by a FastAPI backend, a Next.js frontend, and Notion as a headless CMS. It's designed for easy deployment and scalability, with a focus on clean code and best practices.
 
-## Deployment
+## Live Deployment
 
-The application is deployed and accessible at the following URLs:
+The application is deployed on Oracle Cloud using Coolify and is accessible at the following URLs:
 
-- **Frontend:** [https://blog-project.tomdcoding.net/](https://blog-project.tomdcoding.net/)
-- **Backend:** [https://blog-project-be.tomdcoding.net/](https://blog-project-be.tomdcoding.net/)
+-   **Frontend:** [https://blog-project.tomdcoding.net/](https://blog-project.tomdcoding.net/)
+-   **Backend:** [https://blog-project-be.tomdcoding.net/](https://blog-project-be.tomdcoding.net/)
 
-## Getting Started
+## Main Features
+
+-   **Dynamic Content Management:** Use Notion as a CMS to create, edit, and manage blog posts.
+-   **Responsive Design:** A clean and modern UI built with TailwindCSS that looks great on all devices.
+-   **Fast and SEO-friendly:** Server-side rendering with Next.js for optimal performance and SEO.
+-   **RESTful API:** A robust backend powered by FastAPI with automatic interactive documentation.
+-   **Containerized:** Dockerized for consistent development and easy production deployment.
+
+## Tech Stack
+
+-   **Backend:** FastAPI, Python 3.12, Uvicorn
+-   **Frontend:** Next.js, React, TailwindCSS
+-   **CMS:** Notion API
+-   **Deployment:** Docker, Oracle Cloud, Coolify
+
+## Tools Used
+
+-   **Package Management:** `uv` (backend), `npm` (frontend)
+-   **API Testing:** `curl`, `httpie`, or any API client.
+-   **Code Formatting:** `black` (backend), `prettier` (frontend)
+-   **Linting:** `ruff` (backend), `eslint` (frontend)
+
+## Notion Database Setup
+
+To use Notion as a CMS, you'll need to set up a database with the following properties:
+
+| Property Name | Type      | Description                               |
+| ------------- | --------- | ----------------------------------------- |
+| `title`       | `Title`   | The title of the blog post.               |
+| `slug`        | `Text`    | The URL-friendly slug for the post.       |
+| `published`   | `Checkbox`| Whether the post is visible to the public.|
+| `date`        | `Date`    | The publication date of the post.         |
+| `excerpt`     | `Text`    | A short summary of the post.              |
+| `tags`        | `Multi-select` | Tags for categorizing the post.      |
+| `cover`       | `Files & media` | The cover image for the post.       |
+
+You will also need to create a Notion integration and get an API key.
+
+## Local Deployment
 
 ### Prerequisites
 
-- Python 3.12
-- Node.js 24.x
-- Notion API Key
+-   Python 3.12
+-   Node.js 20.x
+-   Docker and Docker Compose (recommended)
+-   Notion API Key
 
-### Installation
+### Running with Docker (Recommended)
 
-#### Backend Setup
+1.  **Backend Setup:**
+    -   Navigate to the `backend` directory.
+    -   Create a `.env` file from the `.env.example` and add your `NOTION_API_KEY`.
+    -   Run `docker-compose up -d --build`.
 
-```bash
-cd backend
-uv sync
-```
+2.  **Frontend Setup:**
+    -   Navigate to the `frontend` directory.
+    -   Create a `.env.local` file from `.env.local-sample`.
+    -   Run `npm install` and then `npm run dev`.
 
-#### Frontend Setup
+The frontend will be available at `http://localhost:3001` and the backend at `http://localhost:8000`.
 
-```bash
-cd frontend
-npm install
-```
+### Running without Docker
 
-### Running the Application
+Follow the instructions in the `backend/README.md` and `frontend/README.md` files for running the applications without Docker.
 
-#### Local Development
+## API Documentation
 
-**Backend (FastAPI):**
-```bash
-cd backend
-uv run uvicorn app.main:app --reload --port=8000 --host=0.0.0.0
-```
+Once the backend is running, you can access the interactive API documentation at:
 
-**Frontend (Next.js):**
-```bash
-cd frontend
-npm run dev
-```
-
-#### Using Docker
-
-**Option 1: Docker Compose (Recommended)**
-```bash
-cd backend
-docker-compose up -d --build
-```
-
-**Option 2: Individual Docker Build**
-```bash
-cd backend
-docker build -t blog-project-backend .
-docker run -p 8000:8000 blog-project-backend
-```
-
-### Production Deployment
-
-#### Docker Production Setup
-
-The backend Dockerfile is optimized for production with:
-- Multi-stage Alpine Linux build for security and minimal size
-- Non-root user execution
-- Health checks for container orchestration
-- Vulnerability-free base images
-
-**Build production image:**
-```bash
-cd backend
-docker build -t blog-project-backend:production .
-```
-
-**Run in production:**
-```bash
-docker run -d \
-  --name blog-project-backend \
-  -p 8000:8000 \
-  --restart unless-stopped \
-  -e NOTION_API_KEY=${NOTION_API_KEY} \
-  blog-project-backend:production
-```
-
-**Production with Docker Compose:**
-```bash
-cd backend
-# Set environment variables
-export NOTION_API_KEY=your_notion_api_key
-docker-compose up -d
-```
-
-#### Health Monitoring
-
-Monitor your production deployment:
-```bash
-# Check container health
-docker ps
-
-# View logs
-docker logs blog-project-backend
-
-# Health check endpoint
-curl http://localhost:8000/
-```
-
-### API Documentation
-
-Once the backend is running, access the FastAPI documentation:
-- **Swagger UI**: http://localhost:8000/docs
-- **ReDoc**: http://localhost:8000/redoc
-- **OpenAPI JSON**: http://localhost:8000/openapi.json
-
-### Environment Variables
-
-Create a `.env` file in the backend directory:
-```bash
-NOTION_API_KEY=your_notion_api_key_here
-```
+-   **Swagger UI:** [http://localhost:8000/docs](http://localhost:8000/docs)
+-   **ReDoc:** [http://localhost:8000/redoc](http://localhost:8000/redoc)
