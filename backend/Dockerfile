@@ -1,11 +1,22 @@
-FROM python:3.12.11-alpine
+# Stage 1: Build the backend
+FROM python:3.12-slim AS backend-builder
+WORKDIR /app/backend
+RUN pip install uv
+COPY pyproject.toml uv.lock ./
+ENV UV_SYSTEM_PYTHON=1
+RUN uv sync
+COPY . .
 
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
-
-COPY . /app
+# Stage 2: Final image
+FROM python:3.12-slim
 WORKDIR /app
+COPY --from=backend-builder /app/backend /app
+RUN pip install uv
+ENV UV_SYSTEM_PYTHON=1
+RUN uv sync
 
-RUN /bin/uv venv .venv &&     /app/.venv/bin/uv sync --frozen --no-cache
+# Expose port
+EXPOSE 8001
 
-# Directly use virtual environment's uvicorn
-CMD ["/app/.venv/bin/uvicorn", "app.main:app", "--port=8000", "--host=0.0.0.0"]
+# Run start script
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8001"]
