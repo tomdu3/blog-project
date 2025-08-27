@@ -13,15 +13,17 @@ FROM python:3.12-slim AS backend-builder
 WORKDIR /app/backend
 RUN pip install uv
 COPY backend/pyproject.toml backend/uv.lock ./
-RUN uv pip sync --system pyproject.toml
+RUN uv sync --system
 COPY backend/ ./
 
 # Stage 3: Final image
 FROM python:3.12-slim
 WORKDIR /app
 
-# Install Node.js
-RUN apt-get update && apt-get install -y nodejs npm && npm install -g npm@latest
+# Install Node.js by copying from the frontend-builder stage
+COPY --from=frontend-builder /usr/local/bin/node /usr/local/bin/
+COPY --from=frontend-builder /usr/local/lib/node_modules /usr/local/lib/node_modules
+RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
 # Copy frontend app and build artifacts
 WORKDIR /app/frontend
@@ -37,9 +39,8 @@ COPY --from=frontend-builder /app/frontend/src ./src
 # Copy backend app and dependencies
 WORKDIR /app/backend
 COPY --from=backend-builder /app/backend ./
-COPY --from=backend-builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
-COPY --from=backend-builder /usr/local/bin/uvicorn /usr/local/bin/
-COPY --from=backend-builder /usr/local/bin/fastapi /usr/local/bin/
+RUN pip install uv
+RUN uv sync --system
 
 # Set environment variables
 ARG NEXT_PUBLIC_API_URL
