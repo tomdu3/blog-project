@@ -1,12 +1,5 @@
 
 export async function getPosts() {
-  // During the build process, `npm_lifecycle_event` will be 'build'.
-  // In this case, we don't want to fetch data, so we return an empty array.
-  if (process.env.npm_lifecycle_event === 'build') {
-    console.log('Build process detected, skipping fetch.');
-    return [];
-  }
-
   console.log('Fetching posts...');
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   console.log(`API URL: ${apiUrl}`);
