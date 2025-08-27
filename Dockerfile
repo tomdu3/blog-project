@@ -13,7 +13,8 @@ FROM python:3.12-slim AS backend-builder
 WORKDIR /app/backend
 RUN pip install uv
 COPY backend/pyproject.toml backend/uv.lock ./
-RUN uv sync --system
+ENV UV_SYSTEM_PYTHON=1
+RUN uv sync
 COPY backend/ ./
 
 # Stage 3: Final image
@@ -40,7 +41,8 @@ COPY --from=frontend-builder /app/frontend/src ./src
 WORKDIR /app/backend
 COPY --from=backend-builder /app/backend ./
 RUN pip install uv
-RUN uv sync --system
+ENV UV_SYSTEM_PYTHON=1
+RUN uv sync
 
 # Set environment variables
 ARG NEXT_PUBLIC_API_URL
