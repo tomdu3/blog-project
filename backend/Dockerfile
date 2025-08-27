@@ -6,14 +6,15 @@ WORKDIR /app
 
 # Cache deps by lockfile + pyproject located in backend/
 RUN --mount=type=cache,target=/root/.cache/uv \
-    --mount=type=bind,source=backend/uv.lock,target=uv.lock \
-    --mount=type=bind,source=backend/pyproject.toml,target=pyproject.toml \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     uv sync --locked --no-install-project --no-editable
 
 # Add only the backend source and install it (non-editable)
-ADD backend/ /app/
+ADD . /app/
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --locked --no-editable
+
 
 FROM python:3.12-slim
 RUN groupadd -r app && useradd --no-log-init -r -g app app
