@@ -4,12 +4,12 @@ const ContactPage = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <h1 className="text-4xl font-bold mb-4">Contact Me</h1>
-      <p className="text-lg text-gray-700 leading-relaxed mb-8">
+      <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-8">
         Have a question or want to work together? Fill out the form below and I&apos;ll get back to you as soon as possible.
       </p>
       <form className="space-y-6">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Name
           </label>
           <div className="mt-1">
@@ -22,7 +22,7 @@ const ContactPage = () => {
           </div>
         </div>
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Email
           </label>
           <div className="mt-1">
@@ -35,7 +35,7 @@ const ContactPage = () => {
           </div>
         </div>
         <div>
-          <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Message
           </label>
           <div className="mt-1">
