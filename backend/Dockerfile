@@ -15,10 +15,9 @@ RUN pip install uv
 ENV UV_SYSTEM_PYTHON=1
 RUN uv sync
 
-ENV PATH="/app/.venv/bin:$PATH"
-
 # Expose port
 EXPOSE 8001
 
 # Run start script
-CMD ["uv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8001"]
+# Run start script
+CMD ["/app/.venv/bin/uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8001"]
