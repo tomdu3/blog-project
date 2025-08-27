@@ -60,7 +60,7 @@ You will also need to create a Notion integration and get an API key.
 
 1.  **Backend Setup:**
     -   Navigate to the `backend` directory.
-    -   Create a `.env` file from the `.env.example` and add your `NOTION_API_KEY`.
+    -       Create a `.env` file from the `.env.example` and add your `NOTION_API_KEY` and `NOTION_DATABASE_ID`.
     -   Run `docker-compose up -d --build`.
 
 2.  **Frontend Setup:**

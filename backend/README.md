@@ -26,7 +26,7 @@ This is the FastAPI backend for the blog project. It serves blog posts from the 
     cp .env.example .env
     ```
 
-    Update the `.env` file with your `NOTION_API_KEY`.
+    Update the `.env` file with your `NOTION_API_KEY` and `NOTION_DATABASE_ID`.
 
 3.  **Run the development server:**
 
@@ -66,8 +66,8 @@ The API will be available at `http://localhost:8000`.
       -p 8000:8000 \
       --restart unless-stopped \
       -e NOTION_API_KEY=${NOTION_API_KEY} \
+      -e NOTION_DATABASE_ID=${NOTION_DATABASE_ID} \
       blog-project-backend
-    ```
 
 ### API Documentation
 
