@@ -2,6 +2,13 @@
 
 This is a Blog Project based on FastAPI, React, TailwindCSS, and Notion as a CMS.
 
+## Deployment
+
+The application is deployed and accessible at the following URLs:
+
+- **Frontend:** [https://blog-project.tomdcoding.net/](https://blog-project.tomdcoding.net/)
+- **Backend:** [https://blog-project-be.tomdcoding.net/](https://blog-project-be.tomdcoding.net/)
+
 ## Getting Started
 
 ### Prerequisites
