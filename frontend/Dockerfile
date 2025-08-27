@@ -1,6 +1,6 @@
 # Stage 1: Build the frontend
 FROM node:20-slim AS frontend-builder
-WORKDIR /app/frontend
+WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
 COPY . .
@@ -11,14 +11,14 @@ RUN npm run build
 # Stage 2: Final image
 FROM node:20-slim
 WORKDIR /app
-COPY --from=frontend-builder /app/frontend/package.json /app/frontend/package-lock.json ./
+COPY --from=frontend-builder /app/package.json /app/package-lock.json ./
 RUN npm install --production
-COPY --from=frontend-builder /app/frontend/next.config.mjs ./
-COPY --from=frontend-builder /app/frontend/jsconfig.json ./
-COPY --from=frontend-builder /app/frontend/postcss.config.mjs ./
-COPY --from=frontend-builder /app/frontend/public ./public
-COPY --from=frontend-builder /app/frontend/.next ./.next
-COPY --from=frontend-builder /app/frontend/src ./src
+COPY --from=frontend-builder /app/next.config.mjs ./
+COPY --from=frontend-builder /app/jsconfig.json ./
+COPY --from=frontend-builder /app/postcss.config.mjs ./
+COPY --from=frontend-builder /app/public ./public
+COPY --from=frontend-builder /app/.next ./.next
+COPY --from=frontend-builder /app/src ./src
 
 # Expose port
 EXPOSE 3001
