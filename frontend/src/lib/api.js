@@ -7,7 +7,9 @@ export async function getPosts() {
     return [];
   }
 
+  console.log('Fetching posts...');
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  console.log(`API URL: ${apiUrl}`);
 
   try {
     const res = await fetch(`${apiUrl}/posts`, {

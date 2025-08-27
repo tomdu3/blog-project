@@ -2,6 +2,7 @@
 import Link from 'next/link';
 
 const ArticleList = ({ posts }) => {
+  console.log('ArticleList received posts:', posts);
   return (
         <aside className="p-6 bg-slate-800 rounded-lg pb-8">
       <h2 className="text-lg font-medium text-slate-300 mb-4">All Articles</h2>
