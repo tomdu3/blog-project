@@ -32,3 +32,10 @@ class ErrorResponse(BaseModel):
     """Model for error responses"""
     error: str
     message: str
+
+class ContactForm(BaseModel):
+    """Model for the contact form"""
+    name: str
+    email: str
+    message: str
+
