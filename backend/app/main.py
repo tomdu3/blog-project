@@ -3,9 +3,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 import logging
 
-from app.models import PostSummary, PostDetail, PostsResponse, ErrorResponse
+from app.models import PostSummary, PostDetail, PostsResponse, ErrorResponse, ContactForm
 from app.notion.parser import query_database, parse_page_properties, get_page_content
 from app.cache import cache
+from app.email_utils import send_contact_email
 
 app = FastAPI(
     title="Blog API",
@@ -239,3 +240,16 @@ async def get_cache_stats():
             "individual_post_ttl": 600
         }
     }
+
+@app.post("/contact")
+async def contact(form: ContactForm):
+    """Receive contact form submissions"""
+    try:
+        send_contact_email(form.name, form.email, form.message)
+        return {"message": "Contact form submitted successfully"}
+    except Exception as e:
+        logger.error(f"Error sending contact form email: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail="Failed to send message."
+        )
