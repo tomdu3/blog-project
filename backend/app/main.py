@@ -2,11 +2,14 @@ from fastapi import FastAPI, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 import logging
-
+import os
+from dotenv import load_dotenv
 from app.models import PostSummary, PostDetail, PostsResponse, ErrorResponse, ContactForm
 from app.notion.parser import query_database, parse_page_properties, get_page_content
 from app.cache import cache
 from app.email_utils import send_contact_email
+
+load_dotenv()
 
 app = FastAPI(
     title="Blog API",
