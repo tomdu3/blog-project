@@ -16,7 +16,8 @@ async function getPost(slug) {
 }
 
 export default async function BlogPostPage({ params }) {
-  const post = await getPost(params.slug);
+    const { slug } = await params;
+  const post = await getPost(slug);
   const sanitizedContent = DOMPurify.sanitize(marked(post.content));
 
   return (
