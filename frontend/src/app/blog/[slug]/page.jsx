@@ -3,7 +3,7 @@ import { marked } from "marked";
 import DOMPurify from "isomorphic-dompurify";
 
 async function getPost(slug) {
-  const res = await fetch(`http://localhost:8000/posts/${slug}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${slug}`, {
     next: { revalidate: 300 },
   });
 
