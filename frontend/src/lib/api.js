@@ -6,7 +6,7 @@ export async function getPosts() {
 
   try {
     const res = await fetch(`${apiUrl}/posts`, {
-      next: { revalidate: 300 }
+      next: { revalidate: 60 }
     });
     
     if (!res.ok) {
@@ -28,7 +28,7 @@ export async function getPost(slug) {
   
   try {
     const res = await fetch(`${apiUrl}/posts/${slug}`, {
-      next: { revalidate: 600 }
+      next: { revalidate: 60 }
     });
     
     if (!res.ok) {
