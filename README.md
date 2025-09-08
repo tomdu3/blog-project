@@ -16,10 +16,12 @@ The application is deployed on Oracle Cloud using Coolify and is accessible at t
 -   **Fast and SEO-friendly:** Server-side rendering with Next.js for optimal performance and SEO.
 -   **RESTful API:** A robust backend powered by FastAPI with automatic interactive documentation.
 -   **Containerized:** Dockerized for consistent development and easy production deployment.
+-   **Contact Form:** A contact form that sends emails to the administrator.
+-   **Caching:** Redis is used to cache Notion API responses for faster performance.
 
 ## Tech Stack
 
--   **Backend:** FastAPI, Python 3.12, Uvicorn
+-   **Backend:** FastAPI, Python 3.12, Uvicorn, Redis
 -   **Frontend:** Next.js, React, TailwindCSS
 -   **CMS:** Notion API
 -   **Deployment:** Docker, Oracle Cloud, Coolify
@@ -55,12 +57,13 @@ You will also need to create a Notion integration and get an API key.
 -   Node.js 20.x
 -   Docker and Docker Compose (recommended)
 -   Notion API Key
+-   Redis (optional, for caching)
 
 ### Running with Docker (Recommended)
 
 1.  **Backend Setup:**
     -   Navigate to the `backend` directory.
-    -       Create a `.env` file from the `.env.example` and add your `NOTION_API_KEY` and `NOTION_DATABASE_ID`.
+    -   Create a `.env` file from the `.env.example` and add your environment variables. See the `backend/README.md` for a full list of environment variables.
     -   Run `docker-compose up -d --build`.
 
 2.  **Frontend Setup:**
