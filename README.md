@@ -1,5 +1,7 @@
 # Blog Project
 
+[![Blog Project Screenshot](./docs/blog-project.png)](https://blog-project.tomdcoding.net/)
+
 This is a modern blog application powered by a FastAPI backend, a Next.js frontend, and Notion as a headless CMS. It's designed for easy deployment and scalability, with a focus on clean code and best practices.
 
 ## Live Deployment
