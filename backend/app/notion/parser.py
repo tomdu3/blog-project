@@ -109,7 +109,7 @@ def parse_blocks_to_markdown(blocks: List[Dict[str, Any]]) -> str:
         elif block_type == "code":
             code_text = extract_rich_text(block["code"]["rich_text"])
             language = block["code"].get("language", "")
-            markdown_content.append(f"```{language}\n{code_text}\n```")
+            markdown_content.append(f"```{{language}}\n{{code_text}}\n```")
         
         elif block_type == "image":
             image_url = ""
@@ -122,7 +122,7 @@ def parse_blocks_to_markdown(blocks: List[Dict[str, Any]]) -> str:
             if block["image"].get("caption"):
                 caption = extract_rich_text(block["image"]["caption"])
             
-            markdown_content.append(f"![{caption}]({image_url})")
+            markdown_content.append(f"![{{caption}}]({{image_url}})")
         
         elif block_type == "quote":
             text = extract_rich_text(block["quote"]["rich_text"])
@@ -130,8 +130,41 @@ def parse_blocks_to_markdown(blocks: List[Dict[str, Any]]) -> str:
         
         elif block_type == "divider":
             markdown_content.append("---")
+
+        elif block_type == "table":
+            table_rows = get_block_children(block["id"])
+            
+            # Initialize a list to hold the rows of the table
+            table_data = []
+            
+            # Assuming the first row is the header
+            header_row = table_rows[0]
+            header_cells = header_row.get("table_row", {}).get("cells", [])
+            header_texts = [extract_rich_text(cell) for cell in header_cells]
+            table_data.append(header_texts)
+            
+            # Create the markdown separator for the header
+            separator = ["---" for _ in header_texts]
+            table_data.append(separator)
+            
+            # Process the rest of the rows
+            for row_block in table_rows[1:]:
+                row_cells = row_block.get("table_row", {}).get("cells", [])
+                row_texts = [extract_rich_text(cell) for cell in row_cells]
+                table_data.append(row_texts)
+            
+            # Format the table as markdown
+            markdown_table = "\n".join(["| " + " | ".join(row) + " |" for row in table_data])
+            markdown_content.append(markdown_table)
     
     return "\n\n".join(markdown_content)
+
+def get_block_children(block_id: str) -> List[Dict[str, Any]]:
+    """Get children of a block"""
+    notion = get_notion()
+    
+    response = notion.blocks.children.list(block_id=block_id)
+    return response.get("results", [])
 
 def extract_rich_text(rich_text_list: List[Dict[str, Any]]) -> str:
     """Extract plain text from rich text objects"""
