@@ -103,4 +103,17 @@ body {
   @apply italic;
 }
 
+.prose table {
+  @apply w-full my-6 border-collapse;
+}
+
+.prose th,
+.prose td {
+  @apply border border-gray-300 dark:border-gray-600 px-4 py-2 text-left;
+}
+
+.prose th {
+  @apply bg-gray-100 dark:bg-gray-800 font-semibold;
+}
+
 
