@@ -23,7 +23,7 @@ Content-Type: application/json
 ###
 
 ### Get Specific Post - Another valid slug
-GET {{baseUrl}}/posts/beginners-guide-to-personal-finance
+GET {{baseUrl}}/posts/make-30-days-python-challenge
 Content-Type: application/json
 
 ###
