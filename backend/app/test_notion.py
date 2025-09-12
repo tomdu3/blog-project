@@ -3,7 +3,7 @@
 
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.notion.client import get_notion, get_database_id
 from app.notion.parser import query_database, parse_page_properties
@@ -36,6 +36,7 @@ def test_notion_connection():
             print(f"   Slug: {parsed_props.get('slug', 'N/A')}")
             print(f"   Date: {parsed_props.get('date', 'N/A')}")
             print(f"   Excerpt: {parsed_props.get('excerpt', 'N/A')}")
+            print(f"   Cover: {parsed_props.get('cover', 'N/A')}")
             print(f"   Published: {parsed_props.get('published', 'N/A')}")
         else:
             print("ℹ️  No pages found in database (make sure you have published pages)")
