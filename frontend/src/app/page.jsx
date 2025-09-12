@@ -37,17 +37,15 @@ const Home = async () => {
           {latestPosts.map((post) => (
             <article key={post.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
               <Link href={`/blog/${post.slug}`} className="group">
-                {post.cover && (
-                  <div className="relative h-48">
-                    <Image
-                      src={post.cover}
-                      alt={post.title}
-                      fill
-                      style={{ objectFit: "cover" }}
-                      className="group-hover:scale-105 transition-transform duration-200"
-                    />
-                  </div>
-                )}
+                <div className="relative h-48">
+                  <Image
+                    src={post.cover || '/town-crier.webp'}
+                    alt={post.title}
+                    fill
+                    style={{ objectFit: "cover" }}
+                    className="group-hover:scale-105 transition-transform duration-200"
+                  />
+                </div>
                 <div className="p-6">
                   <time className="text-sm text-gray-500">
                     {new Date(post.date).toLocaleDateString('en-US', {

@@ -26,7 +26,7 @@ export default async function BlogPostPage({ params }) {
       {post.cover && (
         <div className="relative h-96 mb-8">
           <Image
-            src={post.cover}
+            src={post.cover || '/town-crier.webp'}
             alt={post.title}
             fill
             style={{ objectFit: "cover" }}
