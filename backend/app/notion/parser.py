@@ -27,15 +27,22 @@ def query_database() -> List[Dict[str, Any]]:
 def parse_page_properties(page: Dict[str, Any]) -> Dict[str, Any]:
     """Extract and format page properties"""
     properties = page.get("properties", {})
-    
+    page_id = page.get("id")
+    blocks = get_page_content(page_id)
+
+    cover = get_cover_from_property(properties.get("Cover", {}))
+    if not cover:
+        cover = get_cover_from_blocks(blocks)
+
     return {
-        "id": page.get("id"),
+        "id": page_id,
         "title": get_title_from_property(properties.get("Title", {})),
         "slug": get_rich_text_from_property(properties.get("Slug", {})),
         "date": get_date_from_property(properties.get("Date", {})),
         "excerpt": get_rich_text_from_property(properties.get("Excerpt", {})),
-        "cover": get_cover_from_property(properties.get("Cover", {})),
-        "published": get_checkbox_from_property(properties.get("Published", {}))
+        "cover": cover,
+        "published": get_checkbox_from_property(properties.get("Published", {})),
+        "content": parse_blocks_to_markdown(blocks)
     }
 
 def get_title_from_property(title_property: Dict[str, Any]) -> str:
@@ -65,6 +72,9 @@ def get_checkbox_from_property(checkbox_property: Dict[str, Any]) -> bool:
 
 def get_cover_from_property(cover_property: Dict[str, Any]) -> str:
     """Extract cover image URL from files property"""
+    if cover_property.get("type") == "url":
+        return cover_property.get("url", "")
+    
     files = cover_property.get("files", [])
     if files:
         file_obj = files[0]
@@ -73,6 +83,20 @@ def get_cover_from_property(cover_property: Dict[str, Any]) -> str:
         elif file_obj.get("type") == "external":
             return file_obj.get("external", {}).get("url", "")
     return ""
+
+
+def get_cover_from_blocks(blocks: List[Dict[str, Any]]) -> str:
+    """Extract the first image URL from a list of blocks"""
+    for block in blocks:
+        if block.get("type") == "image":
+            image_url = ""
+            if block["image"]["type"] == "file":
+                image_url = block["image"]["file"]["url"]
+            elif block["image"]["type"] == "external":
+                image_url = block["image"]["external"]["url"]
+            return image_url
+    return ""
+
 
 def parse_blocks_to_markdown(blocks: List[Dict[str, Any]]) -> str:
     """Convert Notion blocks to markdown"""
@@ -192,11 +216,9 @@ def extract_rich_text(rich_text_list: List[Dict[str, Any]]) -> str:
     
     return "".join(text_parts)
 
-def get_page_content(page_id: str) -> str:
-    """Get page content blocks and convert to markdown"""
+def get_page_content(page_id: str) -> List[Dict[str, Any]]:
+    """Get page content blocks"""
     notion = get_notion()
     
     blocks_response = notion.blocks.children.list(block_id=page_id)
-    blocks = blocks_response.get("results", [])
-    
-    return parse_blocks_to_markdown(blocks)
+    return blocks_response.get("results", [])
