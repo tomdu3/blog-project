@@ -42,7 +42,21 @@ def parse_page_properties(page: Dict[str, Any]) -> Dict[str, Any]:
         "excerpt": get_rich_text_from_property(properties.get("Excerpt", {})),
         "cover": cover,
         "published": get_checkbox_from_property(properties.get("Published", {})),
-        "content": parse_blocks_to_markdown(blocks)
+        "content": parse_blocks_to_markdown(blocks),
+        "url": get_url_from_property(properties.get("URL", {})),
+        "number": get_number_from_property(properties.get("Number", {})),
+        "select": get_select_from_property(properties.get("Select", {})),
+        "multi_select": get_multi_select_from_property(properties.get("Multi-Select", {})),
+        "people": get_people_from_property(properties.get("People", {})),
+        "files": get_files_from_property(properties.get("Files", {})),
+        "status": get_status_from_property(properties.get("Status", {})),
+        "relation": get_relation_from_property(properties.get("Relation", {})),
+        "formula": get_formula_from_property(properties.get("Formula", {})),
+        "rollup": get_rollup_from_property(properties.get("Rollup", {})),
+        "created_by": get_created_by_from_property(properties.get("Created by", {})),
+        "last_edited_by": get_last_edited_by_from_property(properties.get("Last edited by", {})),
+        "created_time": get_created_time_from_property(properties.get("Created time", {})),
+        "last_edited_time": get_last_edited_time_from_property(properties.get("Last edited time", {})),
     }
 
 def get_title_from_property(title_property: Dict[str, Any]) -> str:
@@ -65,6 +79,88 @@ def get_date_from_property(date_property: Dict[str, Any]) -> str:
     if date_obj:
         return date_obj.get("start", "")
     return ""
+
+def get_url_from_property(url_property: Dict[str, Any]) -> str:
+    """Extract URL from property"""
+    return url_property.get("url", "")
+
+def get_number_from_property(number_property: Dict[str, Any]) -> int:
+    """Extract number from property"""
+    return number_property.get("number", 0)
+
+def get_select_from_property(select_property: Dict[str, Any]) -> str:
+    """Extract select option from property"""
+    return select_property.get("select", {}).get("name", "")
+
+def get_multi_select_from_property(multi_select_property: Dict[str, Any]) -> List[str]:
+    """Extract multi-select options from property"""
+    return [option.get("name", "") for option in multi_select_property.get("multi_select", [])]
+
+def get_people_from_property(people_property: Dict[str, Any]) -> List[str]:
+    """Extract people from property"""
+    return [person.get("name", "") for person in people_property.get("people", [])]
+
+def get_files_from_property(files_property: Dict[str, Any]) -> List[str]:
+    """Extract file URLs from property"""
+    files = []
+    for file_obj in files_property.get("files", []):
+        if file_obj.get("type") == "file":
+            files.append(file_obj.get("file", {}).get("url", ""))
+        elif file_obj.get("type") == "external":
+            files.append(file_obj.get("external", {}).get("url", ""))
+    return files
+
+def get_status_from_property(status_property: Dict[str, Any]) -> str:
+    """Extract status from property"""
+    return status_property.get("status", {}).get("name", "")
+
+def get_relation_from_property(relation_property: Dict[str, Any]) -> List[str]:
+    """Extract relation IDs from property"""
+    return [relation.get("id", "") for relation in relation_property.get("relation", [])]
+
+def get_formula_from_property(formula_property: Dict[str, Any]) -> Any:
+    """Extract formula result from property"""
+    formula = formula_property.get("formula", {})
+    formula_type = formula.get("type")
+    
+    if formula_type in ["string", "number", "boolean"]:
+        return formula.get(formula_type)
+    elif formula_type == "date":
+        return formula.get("date", {}).get("start")
+        
+    return None
+
+def get_rollup_from_property(rollup_property: Dict[str, Any]) -> Any:
+    """Extract rollup result from property"""
+    rollup = rollup_property.get("rollup", {})
+    rollup_type = rollup.get("type")
+    
+    if rollup_type == "number":
+        return rollup.get("number")
+    elif rollup_type == "date":
+        return rollup.get("date", {}).get("start")
+    elif rollup_type == "array":
+        # For arrays, we might have different types of items
+        array_items = rollup.get("array", [])
+        return [item.get(item.get("type")) for item in array_items]
+        
+    return None
+
+def get_created_by_from_property(created_by_property: Dict[str, Any]) -> str:
+    """Extract created by from property"""
+    return created_by_property.get("created_by", {}).get("name", "")
+
+def get_last_edited_by_from_property(last_edited_by_property: Dict[str, Any]) -> str:
+    """Extract last edited by from property"""
+    return last_edited_by_property.get("last_edited_by", {}).get("name", "")
+
+def get_created_time_from_property(created_time_property: Dict[str, Any]) -> str:
+    """Extract created time from property"""
+    return created_time_property.get("created_time", "")
+
+def get_last_edited_time_from_property(last_edited_time_property: Dict[str, Any]) -> str:
+    """Extract last edited time from property"""
+    return last_edited_time_property.get("last_edited_time", "")
 
 def get_checkbox_from_property(checkbox_property: Dict[str, Any]) -> bool:
     """Extract boolean from checkbox property"""
@@ -133,7 +229,9 @@ def parse_blocks_to_markdown(blocks: List[Dict[str, Any]]) -> str:
         elif block_type == "code":
             code_text = extract_rich_text(block["code"]["rich_text"])
             language = block["code"].get("language", "")
-            markdown_content.append(f"```{{language}}\n{{code_text}}\n```")
+            markdown_content.append(f"""```{language}
+{code_text}
+```""")
         
         elif block_type == "image":
             image_url = ""
@@ -146,7 +244,7 @@ def parse_blocks_to_markdown(blocks: List[Dict[str, Any]]) -> str:
             if block["image"].get("caption"):
                 caption = extract_rich_text(block["image"]["caption"])
             
-            markdown_content.append(f"![{{caption}}]({{image_url}})")
+            markdown_content.append(f"![{caption}]({image_url})")
         
         elif block_type == "quote":
             text = extract_rich_text(block["quote"]["rich_text"])

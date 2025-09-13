@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import List, Optional, Any
 from datetime import datetime
 
 class PostSummary(BaseModel):
@@ -22,6 +22,20 @@ class PostDetail(BaseModel):
     cover: Optional[str] = None
     published: bool
     content: str
+    url: Optional[str] = None
+    number: Optional[int] = None
+    select: Optional[str] = None
+    multi_select: Optional[List[str]] = None
+    people: Optional[List[str]] = None
+    files: Optional[List[str]] = None
+    status: Optional[str] = None
+    relation: Optional[List[str]] = None
+    formula: Optional[Any] = None
+    rollup: Optional[Any] = None
+    created_by: Optional[str] = None
+    last_edited_by: Optional[str] = None
+    created_time: Optional[str] = None
+    last_edited_time: Optional[str] = None
 
 class PostsResponse(BaseModel):
     """Model for posts listing response"""

@@ -134,9 +134,6 @@ async def get_post(slug: str, response: Response):
         # Parse page properties
         parsed_props = parse_page_properties(target_page)
         
-        # Get full page content
-        content = get_page_content(parsed_props["id"])
-        
         # Create PostDetail model
         post_detail = PostDetail(
             id=parsed_props["id"],
@@ -146,7 +143,21 @@ async def get_post(slug: str, response: Response):
             excerpt=parsed_props["excerpt"],
             cover=parsed_props["cover"],
             published=parsed_props["published"],
-            content=content
+            content=parsed_props["content"],
+            url=parsed_props["url"],
+            number=parsed_props["number"],
+            select=parsed_props["select"],
+            multi_select=parsed_props["multi_select"],
+            people=parsed_props["people"],
+            files=parsed_props["files"],
+            status=parsed_props["status"],
+            relation=parsed_props["relation"],
+            formula=parsed_props["formula"],
+            rollup=parsed_props["rollup"],
+            created_by=parsed_props["created_by"],
+            last_edited_by=parsed_props["last_edited_by"],
+            created_time=parsed_props["created_time"],
+            last_edited_time=parsed_props["last_edited_time"],
         )
         
         # Cache the post for 10 minutes (longer than list since content is more expensive)
