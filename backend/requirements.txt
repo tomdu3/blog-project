@@ -1,0 +1,6 @@
+fastapi>=0.115.14
+uvicorn>=0.34.3
+python-dotenv>=1.0.0
+httpx>=0.27.0
+notion-client>=2.2.1
+pytest>=8.4.2
