@@ -62,7 +62,7 @@ async def get_posts(response: Response):
         # Parse page properties into PostSummary models
         posts = []
         for page in pages:
-            parsed_props = parse_page_properties(page)
+            parsed_props = parse_page_properties(page, fetch_content=False)
             
             post_summary = PostSummary(
                 id=parsed_props["id"],
@@ -119,7 +119,7 @@ async def get_post(slug: str, response: Response):
         # Find the page with matching slug
         target_page = None
         for page in pages:
-            parsed_props = parse_page_properties(page)
+            parsed_props = parse_page_properties(page, fetch_content=False)
             if parsed_props["slug"] == slug:
                 target_page = page
                 break

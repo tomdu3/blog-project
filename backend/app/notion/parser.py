@@ -24,15 +24,20 @@ def query_database() -> List[Dict[str, Any]]:
     
     return response.get("results", [])
 
-def parse_page_properties(page: Dict[str, Any]) -> Dict[str, Any]:
+def parse_page_properties(page: Dict[str, Any], fetch_content: bool = True) -> Dict[str, Any]:
     """Extract and format page properties"""
     properties = page.get("properties", {})
     page_id = page.get("id")
-    blocks = get_page_content(page_id)
+    
+    blocks = []
+    if fetch_content:
+        blocks = get_page_content(page_id)
 
     cover = get_cover_from_property(properties.get("Cover", {}))
-    if not cover:
+    if not cover and fetch_content:
         cover = get_cover_from_blocks(blocks)
+    elif not cover:
+        cover = ""
 
     return {
         "id": page_id,
@@ -42,7 +47,7 @@ def parse_page_properties(page: Dict[str, Any]) -> Dict[str, Any]:
         "excerpt": get_rich_text_from_property(properties.get("Excerpt", {})),
         "cover": cover,
         "published": get_checkbox_from_property(properties.get("Published", {})),
-        "content": parse_blocks_to_markdown(blocks),
+        "content": blocks,
         "url": get_url_from_property(properties.get("URL", {})),
         "number": get_number_from_property(properties.get("Number", {})),
         "select": get_select_from_property(properties.get("Select", {})),
@@ -315,8 +320,25 @@ def extract_rich_text(rich_text_list: List[Dict[str, Any]]) -> str:
     return "".join(text_parts)
 
 def get_page_content(page_id: str) -> List[Dict[str, Any]]:
-    """Get page content blocks"""
+    """Get page content blocks recursively with pagination"""
     notion = get_notion()
     
-    blocks_response = notion.blocks.children.list(block_id=page_id)
-    return blocks_response.get("results", [])
+    results = []
+    has_more = True
+    start_cursor = None
+    
+    while has_more:
+        kwargs = {"block_id": page_id}
+        if start_cursor:
+            kwargs["start_cursor"] = start_cursor
+            
+        response = notion.blocks.children.list(**kwargs)
+        results.extend(response.get("results", []))
+        has_more = response.get("has_more", False)
+        start_cursor = response.get("next_cursor")
+        
+    for block in results:
+        if block.get("has_children"):
+            block["children"] = get_page_content(block["id"])
+            
+    return results

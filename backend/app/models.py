@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Optional, Any
+from typing import List, Optional, Any, Dict
 from datetime import datetime
 
 class PostSummary(BaseModel):
@@ -21,7 +21,7 @@ class PostDetail(BaseModel):
     excerpt: str
     cover: Optional[str] = None
     published: bool
-    content: str
+    content: List[Dict[str, Any]]
     url: Optional[str] = None
     number: Optional[int] = None
     select: Optional[str] = None
